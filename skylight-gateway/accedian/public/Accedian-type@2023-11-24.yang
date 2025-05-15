@@ -53,7 +53,8 @@ module Accedian-type {
       underscores and hyphens";
   }
 
-  f
+  typedef error-tag {
+    description
       "A tag specifying the error category";
     type string;
   }
