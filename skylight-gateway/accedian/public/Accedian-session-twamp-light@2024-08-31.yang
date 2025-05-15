@@ -39,7 +39,7 @@ module Accedian-session-twamp-light {
     Accedian TWAMP Light defines a simpler version of the RFC5357
     TWAMP protocol. It differs mainly by eliminating the need for
     the TWAMP-Control protocol. Some other notable differences are:
-    - Since the control protocol is ommited, the configuration of
+    - Since the control protocol is omitted, the configuration of
     both the session-sender and session-reflector is done through a
     static configuration.
     - The Session-Reflector does not have knowledge of the session

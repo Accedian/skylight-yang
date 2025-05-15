@@ -67,6 +67,16 @@ module Accedian-sat-capabilities {
               description
                 "Boolean key to indicate if the endpoint can perform SAT tests using ITU-Y.1564";
             }
+
+            enum "rfc2544-reflector" {
+              description
+                "Boolean key to indicate if the endpoint can act as a RFC2544 reflector";
+            }
+
+            enum "y1564-reflector" {
+              description
+                "Boolean key to indicate if the endpoint can act as a ITU-Y.1564 reflector";
+            }
           }
         }
 

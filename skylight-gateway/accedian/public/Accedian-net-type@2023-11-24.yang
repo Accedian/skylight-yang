@@ -53,9 +53,9 @@ module Accedian-net-type {
 
   typedef vlan-id {
     description
-      "A 12-bit field specifying the VLAN identifier of the frame. Values 0 and 4095 are reserved";
+      "A 12-bit field specifying the VLAN identifier of the frame.";
     type uint16 {
-      range "1..4094";
+      range "0..4095";
     }
   }
 

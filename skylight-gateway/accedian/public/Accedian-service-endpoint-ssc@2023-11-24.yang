@@ -56,7 +56,7 @@ module Accedian-service-endpoint-ssc {
         type string;
         acdext:tag-metadata interface_id;
         description
-          "The string indentifying the interface instance";
+          "The string identifying the interface instance";
       }
 
       leaf sensor-control-id {

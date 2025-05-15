@@ -1,0 +1,157 @@
+module Accedian-alert-metric-baseline {
+  yang-version 1.1;
+  namespace "http://accedian.com/ns/yang/alert/metric-baseline";
+  prefix acdalmetb;
+
+  import Accedian-alert {
+    prefix acdal;
+  }
+
+  import Accedian-alert-type {
+    prefix acdalt;
+  }
+
+  organization
+    "Accedian Networks Inc.";
+  contact
+    "Accedian Networks Inc.
+
+    https://accedian.com/
+    Email: info@accedian.com
+
+    2351 Blvd Alfred-Nobel, Suite N-410
+    Saint-Laurent (Montreal), Quebec,
+    H4S 2A9, Canada
+
+    Phone: +1.514.331.6181 or +1.866.685.8181";
+
+  description
+    "This module contains the definition of an alert metric baseline
+
+    Copyright (c) Accedian Networks, Inc.
+    All rights reserved";
+
+  revision 2025-06-30 {
+    description
+      "Initial revision";
+  }
+
+  grouping alert-condition {
+    leaf threshold {
+      type uint16 {
+        range "1..999";
+      }
+      units percentage;
+      default 10;
+      description
+        "The value in percent above baseline used
+        as a threshold to trigger an alert. This
+        value will be used in combination of the
+        other condition parameters to determine
+        to generate an alert or not.";
+    }
+
+    leaf ratio {
+      type uint8 {
+        range "0..100";
+      }
+      units percentage;
+      default 100;
+      description
+        "Ratio in percent of interval values meeting
+        the condition to raise the alert.";
+    }
+  }
+
+  augment "/acdal:alert-policies/acdal:alert-policy/acdal:policy" {
+    when "derived-from-or-self(/acdal:alert-policies/acdal:alert-policy/acdal:policy-type, 'acdalt:metric-baseline')";
+    description
+      "Augment the alerts with a conditional policy that allow to trigger
+      an alert based on specific baseline conditions applied to metric based data";
+
+    container metric-baseline-policy {
+      list conditions {
+        key condition-id;
+        min-elements 1;
+        description
+          "A list of 1..N conditions configured under this policy.
+          When needed, more than one condition can be grouped under
+          the same policy to implement in a single policy a common
+          use case.";
+
+        uses acdalt:alert-condition-data;
+
+        leaf condition-id {
+          type string;
+          mandatory true;
+          description
+            "An user configurable ID used to identify each condition";
+        }
+
+        leaf interval-duration-sec {
+          type uint32;
+          default 60;
+          description
+            "Evaluation interval duration in seconds.
+            The period must not be lower than
+            the measured sampling period";
+        }
+
+        container triggers-on {
+          description
+            "Used to determine under which condition the
+            alert will be raised";
+
+          uses alert-condition;
+
+          leaf comparator {
+            type acdalt:alert-comparator;
+            default "gte";
+            description
+              "The comparator operator to use for this
+              alert condition";
+          }
+        }
+
+        container recovers-on {
+          description
+            "Used to specify a user-defined condition under which the
+            alert will be cleared.
+
+            If a user-defined condition is not provided, the alert will
+            be cleared by default on the reverse of the alarm condition.
+            For example:
+            alert condition: >= 500 usec
+            Default recovery condition: < 500 usec";
+
+          uses alert-condition;
+
+          leaf comparator {
+            type acdalt:alert-comparator;
+            default "lt";
+            description
+              "The comparator operator to use for this
+              alert condition";
+          }
+        }
+      }
+    }
+  }
+
+  augment "/acdal:alert-notification/acdal:alert-data" {
+    description
+      "Augment the alert notification with the alert data and baseline type";
+
+    container metric-baseline {
+      uses acdalt:alert-metric-data;
+
+      leaf baseline {
+        type decimal64 {
+          fraction-digits 1;
+        }
+        description
+          "The calculated reference baseline value.";
+      }
+    }
+  }
+}

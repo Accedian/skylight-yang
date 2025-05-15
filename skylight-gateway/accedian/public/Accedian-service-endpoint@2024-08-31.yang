@@ -46,7 +46,7 @@ module Accedian-service-endpoint {
 
   revision 2023-11-24 {
     description
-      "Augment the capability definition to be able to provde per session-type capabilities";
+      "Augment the capability definition to be able to provide per session-type capabilities";
   }
 
   revision 2023-06-23 {

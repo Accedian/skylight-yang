@@ -3,6 +3,10 @@ module Accedian-service-endpoint-nid {
   namespace "http://accedian.com/ns/yang/service/endpoint/nid";
   prefix acdsepnid;
 
+  import ietf-yang-types {
+    prefix yang;
+  }
+
   import Accedian-type {
     prefix acdt;
   }
@@ -58,7 +62,7 @@ module Accedian-service-endpoint-nid {
     container nid-config {
       description
         "The configuration elements of a NID type service endpoint. It is characterized by logical
-        and physical caracteristics";
+        and physical characteristics";
 
       leaf nid-id {
         type acdt:id;
@@ -82,8 +86,14 @@ module Accedian-service-endpoint-nid {
         type acdnt:logical-port;
         description
           "An optional interface definition that allow to refine the identification/location of the endpoint. For
-          example, it can be used (but is not limited) to specify a specific physical/logical port or a
-          specific network namespace";
+          example, it can be used (but is not limited) to specify a physical/logical port or a specific network
+          namespace";
+      }
+
+      leaf mac-address {
+        type yang:mac-address;
+        description
+          "When applicable, the nid endpoint MAC address";
       }
     }
   }

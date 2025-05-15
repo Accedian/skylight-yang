@@ -1,0 +1,96 @@
+module Accedian-echo-capabilities {
+  yang-version 1.1;
+  namespace "http://accedian.com/ns/yang/session/cap/echo";
+  prefix acdec;
+
+  import Accedian-session-type {
+    prefix acdst;
+  }
+
+  import Accedian-service-endpoint {
+    prefix acdsep;
+  }
+
+  organization
+    "Accedian Networks Inc.";
+  contact
+    "Accedian Networks Inc.
+
+    https://accedian.com/
+    Email: info@accedian.com
+
+    2351 Blvd Alfred-Nobel, Suite N-410
+    Saint-Laurent (Montreal), Quebec,
+    H4S 2A9, Canada
+
+    Phone: +1.514.331.6181 or +1.866.685.8181";
+
+  description
+    "This module contains the type definitions of Echo session capabilities.
+
+    Copyright (c) Accedian Networks, Inc.
+    All rights reserved";
+
+  revision 2025-06-30 {
+    description
+      "Initial revision";
+  }
+
+  augment "/acdsep:service-endpoints/acdsep:service-endpoint/acdsep:state/acdsep:capabilities/acdsep:session-capabilities" {
+    when "derived-from-or-self(/acdsep:service-endpoints/acdsep:service-endpoint/acdsep:state/acdsep:capabilities/acdsep:session-type, 'acdst:echo')";
+    description
+      "Augment Accedian service-endpoint capabilities with echo specific capabilities";
+
+    container echo-capabilities {
+      description
+        "Echo session specific capabilities";
+
+
+      list capability {
+        key capability-key;
+        description
+          "List of key-value where each entry represents a Echo session capability and it's corresponding
+          value. The type of each value is key specific and is described in the key description";
+
+          leaf capability-key {
+            description
+              "A leaf representing a Echo capability. The meaning of each capability and its value
+              is described in the following enumeration";
+            type enumeration {
+              enum "udp-sender" {
+                description
+                  "Boolean key to indicate if the endpoint can act as a UDP-Echo sender";
+              }
+              enum "udp-reflector" {
+                description
+                  "Boolean key to indicate if the endpoint can act as a UDP-Echo reflector";
+              }
+              enum "number-of-udp-reflectors" {
+                description
+                  "Integer representing the number of UDP reflector supported by the endpoint";
+              }
+              enum "icmp-sender" {
+                description
+                  "Boolean key to indicate if the endpoint can act as a ICMP-Echo sender";
+              }
+              enum "icmp-reflector" {
+                description
+                  "Boolean key to indicate if the endpoint can act as a ICMP-Echo reflector";
+              }
+              enum "number-of-icmp-reflectors" {
+                description
+                  "Integer representing the number of ICMP reflector supported by the endpoint";
+              }
+          }
+        }
+
+        leaf capability-value {
+          type acdst:capability-value;
+          description
+            "The value associated with each Echo session capability key. The value depends on the
+            key. The value type is provided in the key description";
+        }
+      }
+    }
+  }
+}
