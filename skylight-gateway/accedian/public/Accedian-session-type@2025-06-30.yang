@@ -27,6 +27,16 @@ module Accedian-session-type {
     Copyright (c) Accedian Networks, Inc.
     All rights reserved";
 
+  revision 2025-06-30 {
+    description
+      "Add session type: echo";
+  }
+
+  revision 2024-08-31 {
+    description
+      "Add session type: transfer";
+  }
+
   revision 2023-02-10 {
     description
       "Initial revision";
@@ -35,13 +45,6 @@ module Accedian-session-type {
   identity session {
     description
       "The base type identifying a Accedian session";
-  }
-
-
-  identity twamp {
-    base session;
-    description
-      "The type representing a Accedian TWAMP session as per RFC8040";
   }
 
   identity twamp-light {
@@ -63,6 +66,12 @@ module Accedian-session-type {
       "The type representing a Accedian Pathtrace session";
   }
 
+  identity transfer {
+    base session;
+    description
+      "The type representing a Accedian Transfer session";
+  }
+
   identity sat {
     base session;
     description
@@ -81,22 +90,40 @@ module Accedian-session-type {
       "The type representing a Accedian Y1564 session";
   }
 
+  identity echo {
+    base session;
+    description
+      "The type representing a Accedian Echo session";
+  }
+
+  typedef capability-value {
+    description
+      "The value associated with each capability key. The value depends on the key. The value type
+      is provided in the key description in each session type capability files";
+    type union {
+      type int32;
+      type boolean;
+      type string;
+    }
+  }
+
+
   typedef service-session-status {
     description
       "Defines the different status that can apply to a service endpoint";
 
     type enumeration {
-      enum "Running" {
+      enum "running" {
         description
           "The session is started and running.";
       }
 
-      enum "Stopped" {
+      enum "stopped" {
         description
           "The session is stopped and not running. A rpc start is required to start the session";
       }
 
-      enum "Error" {
+      enum "error" {
         description
           "The session is currently in error state. It currently cannot be started";
       }

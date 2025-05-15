@@ -53,8 +53,7 @@ module Accedian-type {
       underscores and hyphens";
   }
 
-  typedef error-tag {
-    description
+  f
       "A tag specifying the error category";
     type string;
   }
@@ -63,7 +62,7 @@ module Accedian-type {
     container errors {
       config false;
       description
-        "Non-configuration error data to be retrived as part of state/status data or
+        "Non-configuration error data to be retrieved as part of state/status data or
         received through notifications";
 
       list error {

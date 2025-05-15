@@ -31,6 +31,11 @@ module Accedian-alert {
     Copyright (c) Accedian Networks, Inc.
     All rights reserved";
 
+  revision 2025-06-30 {
+    description
+      "Add force-delete RPC support";
+  }
+
   revision 2024-08-31 {
     description
       "Initial revision";
@@ -172,6 +177,32 @@ module Accedian-alert {
       description
         "Policy specific notification data. It is Implemented as a
         Yang augment mount point";
+    }
+  }
+
+  rpc force-delete {
+    description
+      "A remote procedure call that forces the deletion of an alert-policy at the yang datastore level. This RPC will
+      first attempt to delete the policy using the normal delete mechanism (i.e same as restconf-delete). But
+      contrary to the normal delete, if a subsystem-dependent-error occurs during the deletion, the policy will
+      be deleted anyway from the yang datastore.
+
+      Note: This RPC does not allow to force-delete an instance that is referred by another yang-datastore instance.
+      For example: attempting to force-delete an alert-policy referred by a Accedian-session won't be deleted and will
+      return an error. The yang-level datastore dependencies must be deleted first before attempting to force-delete
+      an alert-policy.
+
+      *** WARNING ***
+      This RPC is not intended for normal operations and should only be used as a last resort. Force-deleting an
+      instance from the datastore can cause a configuration inconsistency between the dependent subsystems";
+
+    input {
+      leaf alert-id {
+        type string;
+        mandatory true;
+        description
+          "The alert-id of the alert-policy instance to force-delete";
+      }
     }
   }
 }

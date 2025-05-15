@@ -158,11 +158,17 @@ module Accedian-session-rfc2544 {
           description
             "Session sender outgoing interface. Depending
             on the platform this could be a physical port name
-            or a NFV-interface/virtual-connection name";
+            or a NFV-interface/virtual-connection name
+
+            If an outgoing port name is not specified here, the port
+            configured in the endpoint of the session-sender will
+            be used.
+            If the endpoint configuration does not specify a port, an
+            error will be returned";
         }
 
         container layer2 {
-          when "../../transport-type = 'layer2'";
+          when "../../transport-type = 'layer2' and ../admin-state = 'true'";
 
           leaf y1731-meg-level {
             type acdnt:y1731-meg-level;
@@ -172,7 +178,7 @@ module Accedian-session-rfc2544 {
         }
 
         container layer3 {
-          when "../../transport-type = 'layer3'";
+          when "../../transport-type = 'layer3' and ../admin-state = 'true'";
 
           leaf source-udp-port {
             type acdnt:source-port-number;
@@ -420,17 +426,22 @@ module Accedian-session-rfc2544 {
         }
 
         container layer2 {
-          when "../../transport-type = 'layer2'";
+          when "../../transport-type = 'layer2' and ../admin-state = 'true'";
 
           leaf mac-address {
             type yang:mac-address;
             description
-              "The reflector MAC address";
+              "The reflector MAC address
+
+              If a MAC address is not specified here, the MAC address configured
+              in the endpoint of the session-reflector will be used.
+              If the endpoint configuration does not specify a MAC address, an
+              error will be returned";
           }
         }
 
         container layer3 {
-          when "../../transport-type = 'layer3'";
+          when "../../transport-type = 'layer3' and ../admin-state = 'true'";
 
           leaf ip {
             type inet:ip-address;

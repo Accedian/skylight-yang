@@ -52,6 +52,12 @@ module Accedian-session {
     Copyright (c) Accedian Networks, Inc.
     All rights reserved";
 
+  revision 2025-06-30 {
+    description
+      "Add force-delete RPC support.
+      Fix topology length";
+  }
+
   revision 2024-08-31 {
     description
       "Add metadata container.
@@ -203,9 +209,35 @@ module Accedian-session {
           ordered-by user;
           description
             "String tags used to describe the path segments associated with this session.
-            The user is reponsible to order the list according to the represented session
+            The user is responsible to order the list according to the represented session
             topology";
         }
+      }
+    }
+  }
+
+  rpc force-delete {
+    description
+      "A remote procedure call that forces the deletion of a session at the yang datastore level. This RPC will
+      first attempt to delete the session using the normal delete mechanism (i.e same as restconf-delete). But
+      contrary to the normal delete, if a subsystem-dependent-error occurs during the deletion, the session will
+      be deleted anyway from the yang datastore.
+
+      Note: This RPC does not allow to force-delete an instance that is referred by another yang-datastore instance.
+      For example: attempting to force-delete a session referred by a Accedian-service won't be deleted and will
+      return an error. The yang-level datastore dependencies must be deleted first before attempting to force-delete
+      a session.
+
+      *** WARNING ***
+      This RPC is not intended for normal operations and should only be used as a last resort. Force-deleting an
+      instance from the datastore can cause a configuration inconsistency between the dependent subsystems";
+
+    input {
+      leaf session-id {
+        type acdt:id;
+        mandatory true;
+        description
+          "The session-id of the session instance to force-delete";
       }
     }
   }

@@ -46,7 +46,7 @@ module Accedian-session-throughput {
   }
 
   augment "/acdses:sessions/acdses:session/acdses:service-endpoints/acdses:session-protocol" {
-    when "derived-from-or-self(/acdses:sessions/acdses:session/acdses:session-type, 'acdstype:throughput-session')" {
+    when "derived-from-or-self(/acdses:sessions/acdses:session/acdses:session-type, 'acdstype:throughput')" {
       description
         "Augment the service session protocol of Accedian-service-session with throughput
         config data";
