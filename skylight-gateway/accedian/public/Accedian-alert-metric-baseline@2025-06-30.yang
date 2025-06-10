@@ -44,11 +44,11 @@ module Accedian-alert-metric-baseline {
       units percentage;
       default 10;
       description
-        "The value in percent above baseline used
-        as a threshold to trigger an alert. This
-        value will be used in combination of the
-        other condition parameters to determine
-        to generate an alert or not.";
+        "The percentage value above or below the baseline, depending
+        on whether lte or lt comparators are used, that serves as a
+        threshold for triggering an alert. This value is evaluated
+        alongside other condition parameters to determine whether
+        an alert should be generated.";
     }
 
     leaf ratio {
