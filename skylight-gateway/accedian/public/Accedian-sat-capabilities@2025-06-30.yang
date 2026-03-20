@@ -31,6 +31,11 @@ module Accedian-sat-capabilities {
     Copyright (c) Accedian Networks, Inc.
     All rights reserved";
 
+  revision 2025-06-30 {
+    description
+      "Added RFC2544/Y1564 reflector capabilities";
+  }
+
   revision 2024-08-31 {
     description
       "Initial revision";
